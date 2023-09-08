@@ -19,9 +19,11 @@
 
 	--clr-body-bg: var(--color-red);
 	--clr-header-bg: var(--color-black);
+	--clr-footer-bg: inherit;
 
 	--clr-body-fg: var(--color-white);
 	--clr-header-fg: inherit;
+	--clr-footer-fg: inherit;
 }
 
 /* --- */
@@ -51,4 +53,28 @@ header {
 .heading {
 	font-size: clamp(1rem, 10vw, 3rem);
 	font-weight: bold;
+}
+
+/* --- */
+
+main {
+	flex-grow: 1;
+}
+
+/* --- */
+
+footer {
+	padding: 1rem 0;
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+
+	background: var(--clr-footer-bg);
+	color: var(--clr-footer-fg);
+}
+
+.github-image {
+	width: 30px;
 }
