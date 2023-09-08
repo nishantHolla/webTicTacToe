@@ -1,0 +1,19 @@
+
+@import url("./reset.css");
+@import url("./fonts.css");
+
+/* --- */
+
+:root {
+	/* colors */
+
+	--color-blue: #846ff7;
+	--color-green: #70e0bb;
+	--color-yellow: #f7f36f;
+	--color-red: #f0504f;
+	--color-white: #fdfdfd;
+	--color-gray: #2a2d30;
+	--color-black: #0d0d0d;
+	--color-pure-white: #ffffff;
+	--color-pure-black: #000000;
+}
