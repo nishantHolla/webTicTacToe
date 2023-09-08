@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link href="css/style.css" rel="stylesheet">
-		<script src="js/main.js"> </script>
+		<script src="js/main.js" defer> </script>
 	</head>
 	<body>	
 		<header>
@@ -17,7 +17,12 @@
 				<button type="button" class="start-button start-single-player-button">Single player</button>
 				<button type="button" class="start-button start-multi-player-button">Multi player</button>
 			</div>
-			<div class="end-screen">
+			<div class="game-screen hidden">
+				<div class="game-board">
+					
+				</div>
+			</div>
+			<div class="end-screen hidden">
 				<h2 class="end-game-result">You win!</h2>
 				<button type="button" class="end-button end-restart-button">Restart</button>
 			</div>
