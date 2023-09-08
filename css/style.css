@@ -20,10 +20,13 @@
 	--clr-body-bg: var(--color-red);
 	--clr-header-bg: var(--color-black);
 	--clr-footer-bg: inherit;
+	--clr-single-player-button-bg-color: var(--color-blue);
+	--clr-multi-player-button-bg-color: var(--color-green);
 
 	--clr-body-fg: var(--color-white);
 	--clr-header-fg: inherit;
 	--clr-footer-fg: inherit;
+
 }
 
 /* --- */
@@ -59,6 +62,40 @@ header {
 
 main {
 	flex-grow: 1;
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.start-screen {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.start-button {
+	padding: 1rem 2rem;
+	font-size: clamp(0.5rem, 5vw, 1.4rem);
+	border: none;
+	font-weight: bold;
+	transition: 1s;
+}
+
+.start-button:hover,
+.start-button:focus-visible {
+	transform: translateY(-10px);
+}
+
+.start-single-player-button {
+	background: var(--clr-single-player-button-bg-color);
+}
+
+.start-multi-player-button {
+	background: var(--clr-multi-player-button-bg-color);
 }
 
 /* --- */
