@@ -22,6 +22,7 @@
 	--clr-footer-bg: inherit;
 	--clr-single-player-button-bg-color: var(--color-blue);
 	--clr-multi-player-button-bg-color: var(--color-green);
+	--clr-restart-button-bg-color: var(--color-yellow);
 
 	--clr-body-fg: var(--color-white);
 	--clr-header-fg: inherit;
@@ -74,7 +75,7 @@ main {
 	flex-flow: row wrap;
 	justify-content: center;
 	align-items: center;
-	gap: 10px;
+	gap: 50px;
 }
 
 .start-button {
@@ -85,17 +86,33 @@ main {
 	transition: 1s;
 }
 
-.start-button:hover,
-.start-button:focus-visible {
-	transform: translateY(-10px);
-}
-
 .start-single-player-button {
 	background: var(--clr-single-player-button-bg-color);
 }
 
 .start-multi-player-button {
 	background: var(--clr-multi-player-button-bg-color);
+}
+
+.end-screen {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 50px;
+}
+
+.end-game-result {
+	font-size: clamp(2rem, 10vw, 6rem);
+}
+
+.end-button {
+	align-self: center;
+	padding: 1rem 2rem;
+	font-size: clamp(0.5rem, 5vw, 1.4rem);
+	border: none;
+	font-weight: bold;
+	transition: 1s;
+
+	background: var(--clr-restart-button-bg-color);
 }
 
 /* --- */
@@ -114,4 +131,15 @@ footer {
 
 .github-image {
 	width: 30px;
+}
+
+/* --- */
+
+.hidden {
+	display: none;
+}
+
+button:hover,
+button:focus-visible {
+	transform: translateY(-10px);
 }
