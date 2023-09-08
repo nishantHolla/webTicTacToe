@@ -23,6 +23,8 @@
 	--clr-single-player-button-bg-color: var(--color-blue);
 	--clr-multi-player-button-bg-color: var(--color-green);
 	--clr-restart-button-bg-color: var(--color-yellow);
+	--clr-board-bg: var(--color-gray);
+	--clr-board-cell-bg: var(--color-white);
 
 	--clr-body-fg: var(--color-white);
 	--clr-header-fg: inherit;
@@ -92,6 +94,32 @@ main {
 
 .start-multi-player-button {
 	background: var(--clr-multi-player-button-bg-color);
+}
+
+.game-screen {
+	flex-grow: 1;
+	align-self: stretch;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.game-board {
+	width: 100%;
+	max-width: 600px;
+	aspect-ratio: 1;
+
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(3, 1fr);
+
+	background: var(--clr-board-bg);
+	border: 10px solid var(--clr-board-bg);
+}
+
+.game-board-cell {
+	background: var(--clr-board-cell-bg);
 }
 
 .end-screen {
