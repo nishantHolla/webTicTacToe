@@ -138,7 +138,7 @@ class Game {
 			}
 
 			if (_board[2] === _board[4] && _board[2] === _board[6] && _board[2] !== '') {
-				validationSymbol = _board[0]
+				validationSymbol = _board[2]
 				break
 			}
 
