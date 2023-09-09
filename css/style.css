@@ -122,6 +122,11 @@ main {
 	background: var(--clr-board-cell-bg);
 }
 
+.game-board-cell-image {
+	width: 100%;
+	aspect-ratio: 1;
+}
+
 .end-screen {
 	display: flex;
 	flex-flow: column nowrap;
