@@ -79,8 +79,8 @@ class Game {
 	#makeEndScreen() {
 
 		const DOM_RESTART_BUTTON = document.querySelector('.end-restart-button')
-		this.#isPlayerXTurn = true
 		DOM_RESTART_BUTTON.addEventListener('click', () => {
+			this.#isPlayerXTurn = true
 			this.#logBoard()
 			this.#makeGameScreen()
 			this.#showScreen('start-screen')
