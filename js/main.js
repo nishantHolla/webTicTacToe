@@ -1,6 +1,4 @@
 
-const X_SVG_PATH = 'assets/x.svg'
-const O_SVG_PATH = 'assets/o.svg'
 const SCREENS = ['start-screen', 'game-screen', 'end-screen']
 
 class Game {
@@ -10,11 +8,35 @@ class Game {
 	#isPlayerXTurn = true
 	#cellCount = 9
 	#board = []
-	#validationRule = {
-		'x': 1,
-		'o': -1,
-		'draw': 0,
-		'unfinished': null
+
+	#symbols = {
+		x: {
+			name: 'x',
+			value: 1,
+			singlePlayerMessage: 'You win!',
+			multiPlayerMessage: 'X wins!',
+			svgPath: 'assets/x.svg'
+		},
+
+		o: {
+			name: 'o',
+			value: -1,
+			singlePlayerMessage: 'You lose!',
+			multiPlayerMessage: 'O wins!',
+			svgPath: 'assets/o.svg'
+		},
+
+		draw: {
+			name: 'draw',
+			value: 0,
+			singlePlayerMessage: 'Draw!',
+			multiPlayerMessage: 'Draw!'
+		},
+
+		unfinished: {
+			name: 'unfinished',
+			value: null
+		}
 	}
 
 	constructor() {
@@ -61,13 +83,7 @@ class Game {
 			DOM_IMAGE.classList.add('game-board-cell-image', 'game-board-cell-image-' + String(i))
 
 			DOM_CELL.addEventListener('click', () => {
-				if (this.#isPlayerXTurn)
-					this.#play(i, 'x')
-				else
-					this.#play(i, 'o')
-
-				this.#isPlayerXTurn = !this.#isPlayerXTurn
-				this.#checkBoard()
+				this.#cellAction(i)
 			})
 
 			DOM_CELL.appendChild(DOM_IMAGE)
@@ -89,6 +105,22 @@ class Game {
 
 	}
 
+	#cellAction(_cellIndex) {
+		if (this.#board[_cellIndex] !== '')
+			return
+
+		this.#play(_cellIndex, this.#isPlayerXTurn ? this.#symbols.x.name : this.#symbols.o.name)
+		this.#isPlayerXTurn = !this.#isPlayerXTurn
+		this.#checkBoard()
+
+		if (this.#isSinglePlayerMode) {
+			this.#computeMove()
+			this.#isPlayerXTurn = !this.#isPlayerXTurn
+			this.#checkBoard()
+		}
+
+	}
+
 	#play(_cellIndex, _symbol) {
 		if (typeof(_cellIndex) !== 'number')
 			return
@@ -99,16 +131,19 @@ class Game {
 		if (this.#board[_cellIndex] !== '')
 			return
 
-		if (_symbol !== 'x' && _symbol !== 'o')
+		if (_symbol !== this.#symbols.x.name && _symbol !== this.#symbols.o.name)
 			return
 
 		this.#board[_cellIndex] = _symbol
-		document.querySelector('.game-board-cell-image-' + String(_cellIndex)).src = _symbol === 'x' ? X_SVG_PATH : O_SVG_PATH
+		const svgPath = this.#symbols[_symbol].svgPath
+		document.querySelector('.game-board-cell-image-' + String(_cellIndex)).src = svgPath
+	}
+
+	#computeMove() {
 	}
 
 	#validateBoard(_board) {
 		let validationSymbol = ''
-		let foundFreeSpace = false
 
 		for (let i=0; i<3; i++) {
 			const verticalSymbol = _board[i]
@@ -145,32 +180,34 @@ class Game {
 		}
 
 		if (validationSymbol !== '')
-			return this.#validationRule[validationSymbol]
+			return this.#symbols[validationSymbol].value
 
 		else if (_board.includes(''))
-			return this.#validationRule.unfinished
+			return this.#symbols.unfinished.value
 
 		else
-			return this.#validationRule.draw
+			return this.#symbols.draw.value
 
 	}
 
 	#checkBoard() {
 		const validationResult = this.#validateBoard(this.#board)
 		let winnerText = null
+		let winnerSymbol = null
 
-		if (validationResult === this.#validationRule.x)
-			winnerText = this.#isSinglePlayerMode ? 'You win!' : 'X wins!'
+		if (validationResult === this.#symbols.x.value)
+			winnerSymbol = this.#symbols.x
 
-		else if (validationResult === this.#validationRule.o)
-			winnerText = this.#isSinglePlayerMode ? 'Computer wins!' : 'O wins!'
+		else if (validationResult === this.#symbols.o.value)
+			winnerSymbol = this.#symbols.o
 
-		else if (validationResult === this.#validationRule.draw)
-			winnerText = 'Draw!'
+		else if (validationResult === this.#symbols.draw.value)
+			winnerSymbol = this.#symbols.draw
 
 		else
 			return
 
+		winnerText = this.#isSinglePlayerMode ? winnerSymbol.singlePlayerMessage : winnerSymbol.multiPlayerMessage
 		document.querySelector('.end-game-result').innerText = winnerText
 		this.#showScreen('end-screen')
 	}
