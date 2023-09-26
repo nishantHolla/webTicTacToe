@@ -71,6 +71,7 @@ class Game {
 	}
 
 	#makeGameScreen() {
+
 		const DOM_GAME_BOARD = document.querySelector('.game-board')
 		DOM_GAME_BOARD.replaceChildren()
 		this.#board = []
@@ -139,7 +140,69 @@ class Game {
 		document.querySelector('.game-board-cell-image-' + String(_cellIndex)).src = svgPath
 	}
 
+	/*
+		O or the computer is minimizing
+		X or the player is maximizing
+	*/
 	#computeMove() {
+
+		let bestScore = Infinity
+		let bestMove
+
+		for (let i=0, s=this.#board.length; i<s; i++) {
+			if (this.#board[i] !== '')
+				continue
+
+			this.#board[i] = this.#symbols.o.name
+			let score = this.#minimax(this.#board, 0, true) // -> _isMaximizing must be true as O made its move in the previous line of code
+			if (score < bestScore) {
+				bestScore = score
+				bestMove = i
+			}
+			this.#board[i] = ''
+		}
+
+		this.#play(bestMove, this.#symbols.o.name)
+	}
+
+	#minimax(_board, _depth, _isMaximizing) {
+		let result = this.#validateBoard(_board)
+		if (result !== this.#symbols.unfinished.value)
+			return result
+
+		if (_isMaximizing) {
+
+			let bestScore = -Infinity
+			for (let i=0, s=_board.length; i<s; i++) {
+				if (_board[i] !== '')
+					continue
+
+				_board[i] = this.#symbols.x.name
+				let score = this.#minimax(_board, _depth + 1, false)
+				_board[i] = ''
+
+				bestScore = Math.max(bestScore, score)
+			}
+
+			return bestScore
+		}
+
+		else {
+
+			let bestScore = Infinity
+			for (let i=0, s=_board.length; i<s; i++) {
+				if (_board[i] !== '')
+					continue
+
+				_board[i] = this.#symbols.o.name
+				let score = this.#minimax(_board, _depth + 1, true)
+				_board[i] = ''
+
+				bestScore = Math.min(bestScore, score)
+			}
+
+			return bestScore
+		}
 	}
 
 	#validateBoard(_board) {
