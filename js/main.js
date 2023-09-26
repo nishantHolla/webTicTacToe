@@ -13,6 +13,8 @@ class Game {
 		x: {
 			name: 'x',
 			value: 1,
+			singlePlayerIndicator: 'Your turn',
+			multiPlayerIndicator: `X's turn`,
 			singlePlayerMessage: 'You win!',
 			multiPlayerMessage: 'X wins!',
 			svgPath: 'assets/x.svg'
@@ -21,6 +23,8 @@ class Game {
 		o: {
 			name: 'o',
 			value: -1,
+			singlePlayerIndicator: `Computer's turn`,
+			multiPlayerIndicator: `O's turn`,
 			singlePlayerMessage: 'You lose!',
 			multiPlayerMessage: 'O wins!',
 			svgPath: 'assets/o.svg'
@@ -50,6 +54,9 @@ class Game {
 		if (SCREENS.includes(_screenName) === false)
 			return
 
+		if (_screenName == 'game-screen')
+			this.#updateGameIndicator()
+
 		document.querySelector('.' + this.#currentScreen).classList.add('hidden')
 		document.querySelector('.' + _screenName).classList.remove('hidden')
 		this.#currentScreen = _screenName
@@ -68,6 +75,7 @@ class Game {
 			this.#isSinglePlayerMode = false
 			this.#showScreen('game-screen')
 		})
+
 	}
 
 	#makeGameScreen() {
@@ -120,6 +128,7 @@ class Game {
 			this.#checkBoard()
 		}
 
+		this.#updateGameIndicator()
 	}
 
 	#play(_cellIndex, _symbol) {
@@ -137,7 +146,9 @@ class Game {
 
 		this.#board[_cellIndex] = _symbol
 		const svgPath = this.#symbols[_symbol].svgPath
-		document.querySelector('.game-board-cell-image-' + String(_cellIndex)).src = svgPath
+		const DOM_IMAGE = document.querySelector('.game-board-cell-image-' + String(_cellIndex))
+		DOM_IMAGE.src = svgPath
+		DOM_IMAGE.style.opacity = 1
 	}
 
 	/*
@@ -273,6 +284,27 @@ class Game {
 		winnerText = this.#isSinglePlayerMode ? winnerSymbol.singlePlayerMessage : winnerSymbol.multiPlayerMessage
 		document.querySelector('.end-game-result').innerText = winnerText
 		this.#showScreen('end-screen')
+	}
+
+	#updateGameIndicator() {
+		const DOM_GAME_INDICATOR = document.querySelector('.game-indicator')
+		let message
+
+		if (this.#isSinglePlayerMode) {
+			if (this.#isPlayerXTurn)
+				message = this.#symbols.x.singlePlayerIndicator
+			else
+				message = this.#symbols.o.singlePlayerIndicator
+		}
+
+		else {
+			if (this.#isPlayerXTurn)
+				message = this.#symbols.x.multiPlayerIndicator
+			else
+				message = this.#symbols.o.multiPlayerIndicator
+		}
+
+		DOM_GAME_INDICATOR.innerText = message
 	}
 
 	#logBoard() {

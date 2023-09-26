@@ -99,15 +99,18 @@ main {
 .game-screen {
 	flex-grow: 1;
 	align-self: stretch;
+	padding: 0.5rem;
 
 	display: flex;
+	flex-flow: column nowrap;
 	justify-content: center;
 	align-items: center;
+	gap: 20px;
 }
 
 .game-board {
 	width: 100%;
-	max-width: 600px;
+	max-width: 550px;
 	aspect-ratio: 1;
 
 	display: grid;
@@ -118,13 +121,24 @@ main {
 	border: 10px solid var(--clr-board-bg);
 }
 
+.game-indicator {
+	font-size: clamp(2rem, 5vw, 3rem);
+
+}
+
 .game-board-cell {
 	background: var(--clr-board-cell-bg);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .game-board-cell-image {
-	width: 100%;
+	width: 90%;
 	aspect-ratio: 1;
+	opacity: 0;
+	transition: 1s;
 }
 
 .end-screen {
